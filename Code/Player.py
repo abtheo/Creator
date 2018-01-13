@@ -16,6 +16,7 @@ class agent:
     def ruleCheck(self, pile, gameplan):
         #GamePlan contains list of rules
         #Each rule must be interpreited
+        self.options = cards.Deck().cards
         for erule in gameplan.ruleList:
             #If last card has a rule
             if pile[0] in erule.usesCards:
@@ -32,7 +33,7 @@ class agent:
                         if (opt.value == old.value and opt.suit == old.suit):
                             builder.append(old)
                         
-                self.options = builder     
+                self.options = builder
 
 
     def playRandom(self, pile):
@@ -50,6 +51,7 @@ class agent:
         else:
             return False
 
+    #Temporary function to put a card in the pile
     def tempPlay(self, pile):
         pile.insert(0,self.hand[0])
         self.hand.pop(0)

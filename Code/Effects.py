@@ -71,7 +71,9 @@ class Strategy():
     
     #As if pile[1] were pile[0]
     #But not really, in case of pick ups!
-    #def Invisible(self):
+##    def Invisible(self):
+##        recurStrat = Strategy(self.pile[1:], self.gameplan)
+        
         
     #def Pickup_Pile(self):
 
