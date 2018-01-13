@@ -5,7 +5,7 @@ import rules
 baseRule = rules.rule()
 
 #Generates list of random rules
-new = baseRule.setRandom()
+#new = baseRule.setRandom()
 
 class GamePlan:
 

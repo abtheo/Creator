@@ -18,7 +18,7 @@ class Deck:
         return ', '.join(temp)
 
     #Returns list of ALL cards with ANY properties
-    def getAll(self, properties):
+    def getAny(self, properties):
         out = []
         #Allows string to be passed
         if isinstance(properties, str):
@@ -29,6 +29,12 @@ class Deck:
                 if c.value == p or c.suit == p:
                     out.append(c)
                     break       
+        return out
+
+    def getAll(self):
+        out = []
+        for c in self.cards:
+            out.append(c)
         return out
 
     #Returns list of cards with JUST properties

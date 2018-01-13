@@ -14,13 +14,15 @@ effectList = ["Invisible",
               "Pick_Up",
               "Force_Pair",
               "Force_Card",
-              "Match_Card",
+              "Match_Value",
+              "Match_Suit",
               "Higher",
               "Lower",
               "Burn",
               "Guess",
               "Play_Extra",
-              "Pickup_Pile"]
+              "Pickup_Pile",
+              "Play_Any"]
 
 #Checks order of card values
 #Mostly returns bools
@@ -30,32 +32,37 @@ class orderCheck:
         self.order = gameplan.order
         
     #f < s
-    def lt(f, s):
+    def lt(self,f, s):
         return True if (self.order.index(f) < self.order.index(s)) else False
 
+    def le(self, f,s):
+        return True if (self.order.index(f) <= self.order.index(s)) else False
+
     #f > s
-    def gt(f, s):
+    def gt(self,f, s):
         return True if (self.order.index(f) > self.order.index(s)) else False    
+
+    def ge(self,f, s):
+        return True if (self.order.index(f) >= self.order.index(s)) else False    
         
  
 #Strategy pattern implimentation
 #Runs various card effects based on string input
 class Strategy():
 
-    def __init__(self, pile, gameplan, options):
+    def __init__(self, pile, gameplan):
         self.pile = pile
         self.gameplan = gameplan
         #All cards are an option to begin with
         #Elimination process
-        self.options = cards.Deck()
+        self.baseDeck = cards.Deck()
+        self.options = self.baseDeck.cards
 
 
     
     def run(self, effect):
         self.effect = effect
-        #TEMPORARY
-        #Calls Higher instead of doing switch case
-        Higher(self)
+        getattr(self, effect)()
         return self.options
         
     #Forces the player to play a specific card
@@ -65,16 +72,32 @@ class Strategy():
     #As if pile[1] were pile[0]
     #But not really, in case of pick ups!
     #def Invisible(self):
-
+        
     #def Pickup_Pile(self):
 
-    #Next card must be higher than pile[0]
+    #Next card must be higher than pile
     def Higher(self):
         #Initialise order checking class
         checker = orderCheck(self.gameplan)
         for ecard in self.options[:]:
-            if checker.lt(ecard.value, pile[0].value):
+            if checker.le(ecard.value, self.pile[0].value):
+                self.options.remove(ecard)
+
+    #Next card must be lower than pile
+    def Lower(self):            
+        checker = orderCheck(self.gameplan)
+        for ecard in self.options[:]:
+            if checker.ge(ecard.value, self.pile[0].value):
                 self.options.remove(ecard)
                 
-        
+    #Allows any card to be played next
+    def Play_Any(self):
+        self.options = cards.Deck().cards
 
+    #Play the same value
+    def Match_Value(self):
+        self.options = self.baseDeck.getAny(pile[0].value)
+        
+    #Play the same suit
+    def Match_Suit(self):
+        self.options = self.baseDeck.getAny(pile[0].suit)

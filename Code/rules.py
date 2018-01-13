@@ -27,6 +27,7 @@ class rule:
         #TODO: Unused, impliment later
         self.targets = "left"
 
+
     #Instantiates random example rule
     def setRandom(self):
         #RENAME CARDS VARIABLE

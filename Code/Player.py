@@ -1,11 +1,12 @@
 import random
 import Effects
+import cards
 
 #Knows how to play card games
 class agent:
     def __init__(self):
         self.hand = []
-        self.options = []
+        self.options = cards.Deck().cards
 
     #Draws cards from deck and adds to hand
     def Pick_Up(self, deck, num):
@@ -23,28 +24,31 @@ class agent:
                 self.options.extend(erule.negates)
                 #Executes effect of card
                 strategy = Effects.Strategy(pile, gameplan)
+                #Set union
+                builder = []
+                newOptions = strategy.run(erule.effect)
+                for old in self.options:
+                    for opt in newOptions:
+                        if (opt.value == old.value and opt.suit == old.suit):
+                            builder.append(old)
+                        
+                self.options = builder     
 
-                self.options = strategy.run(erule.effect)
 
-
-    #Plays a card at random
-    #Returns bool whether card was played
-    def playRandom(self,pile):
+    def playRandom(self, pile):
         random.shuffle(self.hand)
         index = -1
-        for opt in self.options:
-            try:
-                index = self.hand.index(opt)
-            except ValueError:
-                print("Not in hand")
-
+        for ecard in self.hand:
+            for opt in self.options:
+                if (ecard.value == opt.value and ecard.suit == opt.suit):
+                    index = self.hand.index(ecard)
+                    
         if (index > -1):
             pile.insert(0, self.hand[index])
             self.hand.pop(index)
             return True
         else:
             return False
-
 
     def tempPlay(self, pile):
         pile.insert(0,self.hand[0])
