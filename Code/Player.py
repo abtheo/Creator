@@ -22,10 +22,9 @@ class agent:
                 self.options.extend(erule.passes)
                 self.options.extend(erule.negates)
                 #Executes effect of card
-                strategy = Effects.Strategy(pile, gameplan, self.hand)
-                strategy.run(erule.effect)
-                
+                strategy = Effects.Strategy(pile, gameplan)
 
+                self.options = strategy.run(erule.effect)
 
 
     #Plays a card at random
@@ -34,15 +33,22 @@ class agent:
         random.shuffle(self.hand)
         index = -1
         for opt in self.options:
-            index = self.hand.index(opt)
+            try:
+                index = self.hand.index(opt)
+            except ValueError:
+                print("Not in hand")
 
         if (index > -1):
             pile.insert(0, self.hand[index])
-            self.hand.remove(index)
+            self.hand.pop(index)
             return True
         else:
             return False
-            
+
+
+    def tempPlay(self, pile):
+        pile.insert(0,self.hand[0])
+        self.hand.pop(0)
             
             
                 

@@ -19,7 +19,11 @@ player2 = Player.agent()
 player1.Pick_Up(gameDeck,4)
 player2.Pick_Up(gameDeck,4)
 
+player1.tempPlay(pile)
+print(pile)
+
 player1.ruleCheck(pile, gameplan)
+print(player1.options)
 player1.playRandom(pile)
 
 print(player1.hand)

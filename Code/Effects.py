@@ -7,6 +7,8 @@
 
 #Called in ruleCheck by Players
 
+import cards
+
 #List containing all possible effects (WIP)
 effectList = ["Invisible",
               "Pick_Up",
@@ -20,20 +22,41 @@ effectList = ["Invisible",
               "Play_Extra",
               "Pickup_Pile"]
 
+#Checks order of card values
+#Mostly returns bools
+class orderCheck:
+
+    def __init__(self, gameplan):
+        self.order = gameplan.order
+        
+    #f < s
+    def lt(f, s):
+        return True if (self.order.index(f) < self.order.index(s)) else False
+
+    #f > s
+    def gt(f, s):
+        return True if (self.order.index(f) > self.order.index(s)) else False    
+        
  
 #Strategy pattern implimentation
 #Runs various card effects based on string input
-class Strategy(Object):
+class Strategy():
 
-    def __init__(self, pile, gameplan, hand):
+    def __init__(self, pile, gameplan, options):
         self.pile = pile
         self.gameplan = gameplan
-        self.hand = hand
+        #All cards are an option to begin with
+        #Elimination process
+        self.options = cards.Deck()
 
 
     
     def run(self, effect):
         self.effect = effect
+        #TEMPORARY
+        #Calls Higher instead of doing switch case
+        Higher(self)
+        return self.options
         
     #Forces the player to play a specific card
     #def Force_Card():
@@ -47,8 +70,11 @@ class Strategy(Object):
 
     #Next card must be higher than pile[0]
     def Higher(self):
-        for ecard in self.hand:
-            if (ecard.value > pile[0].value):
+        #Initialise order checking class
+        checker = orderCheck(self.gameplan)
+        for ecard in self.options[:]:
+            if checker.lt(ecard.value, pile[0].value):
+                self.options.remove(ecard)
+                
         
 
-        
