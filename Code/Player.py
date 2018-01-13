@@ -1,3 +1,5 @@
+import random
+
 #Knows how to play card games
 class agent:
     def __init__(self):
@@ -15,6 +17,31 @@ class agent:
         for erule in gameplan.ruleList:
             #If last card has a rule
             if pile[0] in erule.usesCards:
+                #Adds to playable cards list
                 self.options.extend(erule.passes)
                 self.options.extend(erule.negates)
+
+
+
+    #Plays a card at random
+    #Returns bool whether card was played
+    def playRandom(self,pile):
+        random.shuffle(self.hand)
+        index = -1
+        for opt in self.options:
+            index = self.hand.index(opt)
+
+        if (index > -1):
+            pile.insert(0, self.hand[index])
+            self.hand.remove(index)
+            return True
+        else:
+            return False
+            
+            
+            
+                
+                
+                
+        
                 

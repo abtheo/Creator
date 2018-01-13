@@ -31,7 +31,8 @@ class rule:
         self.stacks = False
 
         #Defaults "left", can be "any" / "right" / "self" etc.
-        self.player = "left"
+        #TODO: Unused, impliment later
+        self.targets = "left"
 
     #Instantiates random example rule
     def setRandom(self):

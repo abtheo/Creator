@@ -13,6 +13,7 @@ class GamePlan:
         #List of rule objects
         self.ruleList = []
         self.goal = "Play All"
+        self.cantPlay = "Pick Up"
 
     def setRandom(self, num):
         #Generates random rule list
@@ -20,6 +21,3 @@ class GamePlan:
             self.ruleList.append(baseRule.setRandom())
 
 
-
-myPlan = GamePlan()
-myPlan.setRandom(4)
