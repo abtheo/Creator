@@ -1,4 +1,5 @@
 import random
+import Effects
 
 #Knows how to play card games
 class agent:
@@ -20,6 +21,10 @@ class agent:
                 #Adds to playable cards list
                 self.options.extend(erule.passes)
                 self.options.extend(erule.negates)
+                #Executes effect of card
+                strategy = Effects.Strategy(pile, gameplan, self.hand)
+                strategy.run(erule.effect)
+                
 
 
 

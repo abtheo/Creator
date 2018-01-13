@@ -20,6 +20,7 @@ player1.Pick_Up(gameDeck,4)
 player2.Pick_Up(gameDeck,4)
 
 player1.ruleCheck(pile, gameplan)
+player1.playRandom(pile)
 
 print(player1.hand)
 
