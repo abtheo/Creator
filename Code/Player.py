@@ -20,9 +20,6 @@ class agent:
         for erule in gameplan.ruleList:
             #If last card has a rule
             if pile[0] in erule.usesCards:
-                #Adds to playable cards list
-                self.options.extend(erule.passes)
-                self.options.extend(erule.negates)
                 #Executes effect of card
                 strategy = Effects.Strategy(pile, gameplan)
                 #Set union
@@ -34,8 +31,12 @@ class agent:
                             builder.append(old)
                         
                 self.options = builder
+                #Adds to playable cards list
+                self.options.extend(erule.passes)
+                self.options.extend(erule.negates)
 
 
+    #Plays random card from hand within options
     def playRandom(self, pile):
         random.shuffle(self.hand)
         index = -1

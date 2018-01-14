@@ -64,6 +64,10 @@ class Strategy():
         self.effect = effect
         getattr(self, effect)()
         return self.options
+
+
+    #def Burn(self):
+        
         
     #Forces the player to play a specific card
     #def Force_Card():
@@ -72,8 +76,12 @@ class Strategy():
     #As if pile[1] were pile[0]
     #But not really, in case of pick ups!
 ##    def Invisible(self):
-##        recurStrat = Strategy(self.pile[1:], self.gameplan)
-        
+##        if (len(self.pile) > 1):
+##            recurStrat = Strategy(self.pile[1:], self.gameplan)
+##            recurStrat.run()
+##        else:
+##            self.options = 
+##        
         
     #def Pickup_Pile(self):
 
