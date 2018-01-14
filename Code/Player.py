@@ -12,30 +12,6 @@ class agent:
     def Pick_Up(self, deck, num):
         self.hand.extend(deck.draw(num))
 
-    #Gets possible moves
-    def ruleCheck(self, pile, gameplan):
-        #GamePlan contains list of rules
-        #Each rule must be interpreited
-        self.options = cards.Deck().cards
-        for erule in gameplan.ruleList:
-            #If last card has a rule
-            if pile[0] in erule.usesCards:
-                #Executes effect of card
-                strategy = Effects.Strategy(pile, gameplan)
-                #Set union
-                builder = []
-                newOptions = strategy.run(erule.effect)
-                for old in self.options:
-                    for opt in newOptions:
-                        if (opt.value == old.value and opt.suit == old.suit):
-                            builder.append(old)
-                        
-                self.options = builder
-                #Adds to playable cards list
-                self.options.extend(erule.passes)
-                self.options.extend(erule.negates)
-
-
     #Plays random card from hand within options
     def playRandom(self, pile):
         random.shuffle(self.hand)

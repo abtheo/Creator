@@ -50,23 +50,25 @@ class orderCheck:
 #Runs various card effects based on string input
 class Strategy():
 
-    def __init__(self, pile, gameplan):
+    def __init__(self, pile, gameplan, rule):
         self.pile = pile
         self.gameplan = gameplan
+        self.rule = rule
         #All cards are an option to begin with
         #Elimination process
         self.baseDeck = cards.Deck()
         self.options = self.baseDeck.cards
+        self.effect = rule.effect
 
 
     
-    def run(self, effect):
-        self.effect = effect
+    def run(self):
         getattr(self, effect)()
         return self.options
 
 
     #def Burn(self):
+        
         
         
     #Forces the player to play a specific card
