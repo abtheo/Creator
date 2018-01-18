@@ -3,11 +3,6 @@ import rules
 import cards
 import Effects
 
-#Generates list of random rules
-#new = baseRule.setRandom()
-
-#Should be singleton
-
 class GamePlan:
 
     def __init__(self):
@@ -20,6 +15,38 @@ class GamePlan:
         self.handSize = 4
         self.currentTurn = 0
         self.deck = cards.Deck()
+        self.pile = []
+
+    #Plays the game
+    def play(self):
+        playable = True
+        while playable:
+            playable = False
+            #Iterates through players turns
+            playerCount = len(self.players)
+            for i in range(0,playerCount):
+                self.currentTurn = i
+                currentPlayer = self.players[i]
+                
+                print("Pile: ", self.pile)
+                print("Player ", i, "hand: ", currentPlayer.hand)
+                #Now check for options and play random
+                currentPlayer.options = self.cardCheck()  
+                currentPlayer.playRandom(self.pile)
+
+                #Binary OR operation
+                #Ensures at least one player plays in the round
+                playable = playable | currentPlayer.played
+
+                #Default 'Play All' goal
+                #TODO: Refactor and remove later
+                if len(currentPlayer.hand) == 0:
+                    print("Pile: ", self.pile)
+                    print("Player ", i, " wins!")
+                    return i
+                
+        #While loop exit
+        print("No winners!")
 
     #Attatch players to GamePlan
     def attach(self, player):
@@ -31,30 +58,26 @@ class GamePlan:
         player.Pick_Up(self.deck, self.handSize)
         self.players.append(player)
 
+    #Returns Player for current turn
     def getCurrentPlayer(self):
         if len(players) > 0:
             return players[currentTurn]
         else:
             return None
-        
-    #Testing function, delete eventually
-    def setRandom(self, num):
-        #Instantiates a rule obj
-        baseRule = rules.rule()
-        #Generates random rule list
-        for i in range(num):
-            self.ruleList.append(baseRule.setRandom())
-            
 
-    #Returns playable cards based on pile effect
-    def cardCheck(self, pile):
+    #Plays a starting card from the deck        
+    def startCard(self):
+        self.pile.extend(self.deck.draw(1))
+
+    #Returns playable cards based on self.pile effect
+    def cardCheck(self):
         #Each rule must be interpreited
         options = cards.Deck().cards
         for erule in self.ruleList:
             #If last card has a rule
-            if pile[0] in erule.usesCards:
+            if self.pile[0] in erule.usesCards:
                 #Executes effect of card
-                strategy = Effects.Strategy(pile, self, erule)
+                strategy = Effects.Strategy(self.pile, self, erule)
                 newOptions = strategy.run()
                 
                 #Set union operation
