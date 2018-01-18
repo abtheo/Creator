@@ -8,40 +8,32 @@ import rules
 import Player
 
 #Instatiations
-gameDeck = cards.Deck()
 pile = []
 gameplan = GamePlan()
 
-#Adding rules
+#Adding rules--------------------------
 #Architect's job!
 higherRule = rules.rule()
 higherRule.effect = "Higher"
-higherRule.usesCards = gameDeck.getAll()[0:28]
+higherRule.usesCards = gameplan.deck.getAll()[0:28]
 gameplan.ruleList.append(higherRule)
 
 anyRule = rules.rule()
 anyRule.effect="Play_Any"
-anyRule.usesCards = gameDeck.getAll()
+anyRule.usesCards = gameplan.deck.getAll()
 gameplan.ruleList.append(anyRule)
+#--------------------------------------
 
-#Agents initialised
-player1 = Player.agent()
-player2 = Player.agent()
+#Attach x players to GamePlan
+for x in range(0,2):
+    gameplan.setupPlayer(Player.agent(x))
 
-#Hands drawn
-player1.Pick_Up(gameDeck,5)
-player2.Pick_Up(gameDeck,4)
-
-print("P1 Hand: ")
-print(player1.hand)
-
-print("PLAYING INITIAL")
-player1.tempPlay(pile)
-print("Pile: ")
-print(pile)
-
+#Play starting card
+pile.append(gameplan.deck.draw())
 
 for turn in range (0, 20):
+    #Only current goal is play all first
+    #Will be refactored to complex goal handling
     if len(player1.hand) == 0:
         print("Player 1 wins! Turns: ", turn)
         break
@@ -66,8 +58,17 @@ for turn in range (0, 20):
             print("Nobody can play! No winner at turn ", turn)
             break
     print("Pile: ")
-    print(pile)         
+    print(pile)
 
+#Plays game until loop broken
+while True:
+    #Iterates through players
+    for i in range(0,len(gameplan.players)):
+        if (i == gameplan.currentTurn):
+            currentPlayer = gameplan.players[i]
+            #Now check for options and play random
+            #Refactor play random to have priorities?
+            #Brain upgrade for Player :)
 
 
 

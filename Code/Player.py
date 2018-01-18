@@ -4,10 +4,12 @@ import cards
 
 #Knows how to play card games
 class agent:
-    def __init__(self):
+    def __init__(self, uid=None):
         self.hand = []
         self.options = cards.Deck().cards
         self.played = True
+        #Can be assigned dynamically
+        self.uid = uid
 
     #Draws cards from deck and adds to hand
     def Pick_Up(self, deck, num):

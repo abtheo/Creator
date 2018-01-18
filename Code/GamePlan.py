@@ -16,7 +16,20 @@ class GamePlan:
         self.goal = "Play All"
         self.cantPlay = "Pick Up"
         self.order = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace']
-        #Attatch players
+        self.players = []
+        self.handSize = 4
+        self.currentTurn = 0
+        self.deck = cards.Deck()
+
+    #Attatch players to GamePlan
+    def attach(self, player):
+        self.players.append(player)
+
+    #Attaches and handles setup, e.g. drawing cards
+    def setupPlayer(self, player):
+        player.Pick_Up(self.deck, self.handSize)
+        self.players.append(player)
+        
 
     def setRandom(self, num):
         #Instantiates a rule obj
@@ -35,20 +48,20 @@ class GamePlan:
             if pile[0] in erule.usesCards:
                 #Executes effect of card
                 strategy = Effects.Strategy(pile, self, erule)
+                newOptions = strategy.run()
+                
                 #Set union operation
                 builder = []
-                newOptions = strategy.run()
+                
                 for old in options:
                     for opt in newOptions:
                         if (opt.value == old.value and opt.suit == old.suit):
                             builder.append(old)
 
                 #Adds to playable cards list
+                #TODO: Player priorities?
                 options = builder
                 options.extend(erule.passes)
                 options.extend(erule.negates)
 
-
         return options
-    #So if no options, or no options in hand
-    #Call effect function again with failed bool?
