@@ -29,46 +29,41 @@ for x in range(0,2):
     gameplan.setupPlayer(Player.agent(x))
 
 #Play starting card
-pile.append(gameplan.deck.draw())
+pile.extend(gameplan.deck.draw(1))
 
-for turn in range (0, 20):
-    #Only current goal is play all first
-    #Will be refactored to complex goal handling
-    if len(player1.hand) == 0:
-        print("Player 1 wins! Turns: ", turn)
-        break
-    elif len(player2.hand) == 0:
-        print("Player 2 wins! Turns: ", turn)
-        break
+playable = True
+#Plays game
+while playable:
+    playable = False
+    #Iterates through players turns
+    playerCount = len(gameplan.players)
+    for i in range(0,playerCount):
+        gameplan.currentTurn = i
+        currentPlayer = gameplan.players[i]
         
-    else:
-        if (turn % 2 == 0):
-            print("P1 Hand: " )
-            print(player1.hand)
-            player1.options = gameplan.cardCheck(pile)
-            player1.playRandom(pile)
+        print("Pile: ", pile)
+        print("Player ", i, "hand: ", currentPlayer.hand)
+        #Now check for options and play random
+        currentPlayer.options = gameplan.cardCheck(pile)  
+        currentPlayer.playRandom(pile)
+
+        #Binary OR operation
+        #Ensures at least one player plays in the round
+        playable = playable | currentPlayer.played
+
+        #Default 'Play All' goal
+        #Refactor and remove later
+        if len(currentPlayer.hand) == 0:
+            print("Pile: ", pile)
+            print("Player ", i, " wins!")
             
-        else:
-            print("P2 Hand: " )
-            print(player2.hand)
-            player2.options = gameplan.cardCheck(pile)
-            player2.playRandom(pile)
-
-    if (player1.played == False and player2.played == False):
-            print("Nobody can play! No winner at turn ", turn)
-            break
-    print("Pile: ")
-    print(pile)
-
-#Plays game until loop broken
-while True:
-    #Iterates through players
-    for i in range(0,len(gameplan.players)):
-        if (i == gameplan.currentTurn):
-            currentPlayer = gameplan.players[i]
-            #Now check for options and play random
-            #Refactor play random to have priorities?
-            #Brain upgrade for Player :)
+    
+        
+        
+        
+            
+            
+            
 
 
 

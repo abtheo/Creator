@@ -25,12 +25,19 @@ class GamePlan:
     def attach(self, player):
         self.players.append(player)
 
+
     #Attaches and handles setup, e.g. drawing cards
     def setupPlayer(self, player):
         player.Pick_Up(self.deck, self.handSize)
         self.players.append(player)
-        
 
+    def getCurrentPlayer(self):
+        if len(players) > 0:
+            return players[currentTurn]
+        else:
+            return None
+        
+    #Testing function, delete eventually
     def setRandom(self, num):
         #Instantiates a rule obj
         baseRule = rules.rule()

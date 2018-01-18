@@ -7,6 +7,8 @@ class agent:
     def __init__(self, uid=None):
         self.hand = []
         self.options = cards.Deck().cards
+        self.passOption = []
+        self.negateOption = []
         self.played = True
         #Can be assigned dynamically
         self.uid = uid
@@ -31,10 +33,10 @@ class agent:
         else:
             self.played = False
 
-    #Temporary function to put a card in the pile
-    def tempPlay(self, pile):
-        pile.insert(0,self.hand[0])
-        self.hand.pop(0)
+    #PlayerUpgrade1
+    #Prioritises cards to play based on pass and negate options
+##    def priorityPlay(self, pile):
+##        if len(passOption) > 0:
             
             
                 
