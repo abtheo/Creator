@@ -7,8 +7,8 @@ class agent:
     def __init__(self, uid=None):
         self.hand = []
         self.options = cards.Deck().cards
-        self.passOption = []
-        self.negateOption = []
+        self.passOptions = []
+        self.negateOptions = []
         self.played = True
         #Can be assigned dynamically
         self.uid = uid
@@ -31,15 +31,45 @@ class agent:
             print("Playing: ", self.hand.pop(index), "\n")
             self.played = True
         else:
+            print("Player cannot play. \n")
             self.played = False
+
 
     #PlayerUpgrade1
     #Prioritises cards to play based on pass and negate options
-##    def priorityPlay(self, pile):
-##        if len(passOption) > 0:
+    def priorityPlay(self, pile):
+        index = -1
+        #Refactor this duplicated mess at some point
+        #Probably into a player function
+
+        #First check passing
+        if len(self.passOptions) > 0:
+            for ecard in self.hand:
+                for opt in passOptions:
+                    if (ecard.value == opt.value and ecard.suit == opt.suit):
+                        index = self.hand.index(ecard)
+
+        #Then check negating                
+        elif len(self.negateOptions) > 0:
+            for ecard in self.hand:
+                for opt in passOptions:
+                    if (ecard.value == opt.value and ecard.suit == opt.suit):
+                        index = self.hand.index(ecard)
+
+        #Else choose any possible
+        else:
+            for ecard in self.hand:
+                for opt in self.options:
+                    if (ecard.value == opt.value and ecard.suit == opt.suit):
+                        index = self.hand.index(ecard)
             
-            
-                
+        if (index > -1):
+            pile.insert(0, self.hand[index])
+            print("Playing: ", self.hand.pop(index), "\n")
+            self.played = True
+        else:
+            print("Player cannot play. \n")
+            self.played = False        
                 
                 
         

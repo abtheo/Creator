@@ -8,14 +8,15 @@ class GamePlan:
     def __init__(self):
         #List of rule objects
         self.ruleList = []
-        self.goal = "Play All"
-        self.cantPlay = "Pick Up"
         self.order = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace']
         self.players = []
         self.handSize = 4
         self.currentTurn = 0
         self.deck = cards.Deck()
         self.pile = []
+        #Unused
+        self.goal = "Play All"
+        self.cantPlay = "Pick Up"
 
     #Plays the game
     def play(self):
@@ -33,7 +34,7 @@ class GamePlan:
                 print("Player ", i, "hand: ", currentPlayer.hand)
                 #Now check for options and play random
                 currentPlayer.options = self.cardCheck()  
-                currentPlayer.playRandom(self.pile)
+                currentPlayer.priorityPlay(self.pile)
 
                 #Binary OR operation
                 #Ensures at least one player plays in the round
@@ -78,7 +79,7 @@ class GamePlan:
             #If last card has a rule
             if self.pile[0] in erule.usesCards:
                 #Executes effect of card
-                strategy = Effects.Strategy(self.pile, self, erule)
+                strategy = Effects.Strategy(self, erule)
                 newOptions = strategy.run()
                 
                 #Set union operation

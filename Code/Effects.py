@@ -50,8 +50,8 @@ class orderCheck:
 #Runs various card effects based on string input
 class Strategy():
 
-    def __init__(self, pile, gameplan, rule):
-        self.pile = pile
+    def __init__(self, gameplan, rule):
+        self.pile = gameplan.pile
         self.gameplan = gameplan
         self.rule = rule
         #All cards are an option to begin with

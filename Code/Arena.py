@@ -25,10 +25,12 @@ gameplan.ruleList.append(anyRule)
 #--------------------------------------
 
 #Attach x players to GamePlan
-for x in range(0,5):
+for x in range(0,2):
     gameplan.setupPlayer(Player.agent(x))
 
+#Draws a starting card from the deck. ToBeReplaced.
 gameplan.startCard()
+#Plays the game
 gameplan.play()
 
 
