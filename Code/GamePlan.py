@@ -6,6 +6,8 @@ import Effects
 #Generates list of random rules
 #new = baseRule.setRandom()
 
+#Should be singleton
+
 class GamePlan:
 
     def __init__(self):
@@ -24,10 +26,8 @@ class GamePlan:
             self.ruleList.append(baseRule.setRandom())
             
 
-    #Imported from Player!
-    #Refactor to work here
-    def ruleCheck(self, pile):
-        #GamePlan contains list of rules
+    #Returns playable cards based on pile effect
+    def cardCheck(self, pile):
         #Each rule must be interpreited
         options = cards.Deck().cards
         for erule in self.ruleList:
@@ -35,7 +35,7 @@ class GamePlan:
             if pile[0] in erule.usesCards:
                 #Executes effect of card
                 strategy = Effects.Strategy(pile, self, erule)
-                #Set union
+                #Set union operation
                 builder = []
                 newOptions = strategy.run()
                 for old in options:

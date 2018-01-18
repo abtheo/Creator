@@ -68,6 +68,11 @@ class Strategy():
 
 
     #def Burn(self):
+    #IF Player cannot negate or pass   //handled by cardCheck?
+    #Burn x cards from Player instance hand
+    #Already have GamePlan, so if I attatch Players then I can access them here
+
+    
         
         
         
@@ -82,7 +87,7 @@ class Strategy():
 ##            recurStrat = Strategy(self.pile[1:], self.gameplan)
 ##            recurStrat.run()
 ##        else:
-##            self.options = 
+##            self.options = self.baseDeck.cards
 ##        
         
     #def Pickup_Pile(self):

@@ -14,10 +14,10 @@ gameplan = GamePlan()
 
 #Adding rules
 #Architect's job!
-testRule = rules.rule()
-testRule.effect = "Higher"
-testRule.usesCards = gameDeck.getAll()[0:28]
-gameplan.ruleList.append(testRule)
+higherRule = rules.rule()
+higherRule.effect = "Higher"
+higherRule.usesCards = gameDeck.getAll()[0:28]
+gameplan.ruleList.append(higherRule)
 
 anyRule = rules.rule()
 anyRule.effect="Play_Any"
@@ -53,13 +53,13 @@ for turn in range (0, 20):
         if (turn % 2 == 0):
             print("P1 Hand: " )
             print(player1.hand)
-            player1.options = gameplan.ruleCheck(pile)
+            player1.options = gameplan.cardCheck(pile)
             player1.playRandom(pile)
             
         else:
             print("P2 Hand: " )
             print(player2.hand)
-            player2.options = gameplan.ruleCheck(pile)
+            player2.options = gameplan.cardCheck(pile)
             player2.playRandom(pile)
 
     if (player1.played == False and player2.played == False):
