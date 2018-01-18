@@ -3,9 +3,6 @@ import rules
 import cards
 import Effects
 
-#Instantiates rule obj
-baseRule = rules.rule()
-
 #Generates list of random rules
 #new = baseRule.setRandom()
 
@@ -17,9 +14,11 @@ class GamePlan:
         self.goal = "Play All"
         self.cantPlay = "Pick Up"
         self.order = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace']
-
+        #Attatch players
 
     def setRandom(self, num):
+        #Instantiates a rule obj
+        baseRule = rules.rule()
         #Generates random rule list
         for i in range(num):
             self.ruleList.append(baseRule.setRandom())
@@ -35,10 +34,10 @@ class GamePlan:
             #If last card has a rule
             if pile[0] in erule.usesCards:
                 #Executes effect of card
-                strategy = Effects.Strategy(pile, self)
+                strategy = Effects.Strategy(pile, self, erule)
                 #Set union
                 builder = []
-                newOptions = strategy.run(erule.effect)
+                newOptions = strategy.run()
                 for old in options:
                     for opt in newOptions:
                         if (opt.value == old.value and opt.suit == old.suit):
@@ -51,3 +50,5 @@ class GamePlan:
 
 
         return options
+    #So if no options, or no options in hand
+    #Call effect function again with failed bool?

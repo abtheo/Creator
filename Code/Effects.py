@@ -63,7 +63,7 @@ class Strategy():
 
     
     def run(self):
-        getattr(self, effect)()
+        getattr(self, self.effect)()
         return self.options
 
 

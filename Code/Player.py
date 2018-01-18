@@ -7,6 +7,7 @@ class agent:
     def __init__(self):
         self.hand = []
         self.options = cards.Deck().cards
+        self.played = True
 
     #Draws cards from deck and adds to hand
     def Pick_Up(self, deck, num):
@@ -24,9 +25,9 @@ class agent:
         if (index > -1):
             pile.insert(0, self.hand[index])
             self.hand.pop(index)
-            return True
+            self.played = True
         else:
-            return False
+            self.played = False
 
     #Temporary function to put a card in the pile
     def tempPlay(self, pile):

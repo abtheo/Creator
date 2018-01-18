@@ -41,9 +41,6 @@ print("Pile: ")
 print(pile)
 
 
-p1_played = True
-p2_played = True
-
 for turn in range (0, 20):
     if len(player1.hand) == 0:
         print("Player 1 wins! Turns: ", turn)
@@ -57,15 +54,15 @@ for turn in range (0, 20):
             print("P1 Hand: " )
             print(player1.hand)
             player1.options = gameplan.ruleCheck(pile)
-            p1_played = player1.playRandom(pile)
+            player1.playRandom(pile)
             
         else:
             print("P2 Hand: " )
             print(player2.hand)
             player2.options = gameplan.ruleCheck(pile)
-            p2_played = player2.playRandom(pile)
+            player2.playRandom(pile)
 
-    if (p1_played == False and p2_played == False):
+    if (player1.played == False and player2.played == False):
             print("Nobody can play! No winner at turn ", turn)
             break
     print("Pile: ")
