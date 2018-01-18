@@ -3,6 +3,7 @@
 #Import class from file
 #TODO: Refactor this, looks messy
 from GamePlan import GamePlan
+
 import rules
 import Player
 import cards
@@ -24,7 +25,7 @@ gameplan.ruleList.append(anyRule)
 #--------------------------------------
 
 #Attach x players to GamePlan
-for x in range(0,2):
+for x in range(0,5):
     gameplan.setupPlayer(Player.agent(x))
 
 gameplan.startCard()

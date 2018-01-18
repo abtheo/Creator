@@ -28,7 +28,7 @@ class agent:
                     
         if (index > -1):
             pile.insert(0, self.hand[index])
-            self.hand.pop(index)
+            print("Playing: ", self.hand.pop(index), "\n")
             self.played = True
         else:
             self.played = False

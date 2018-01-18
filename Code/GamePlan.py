@@ -20,6 +20,7 @@ class GamePlan:
     #Plays the game
     def play(self):
         playable = True
+        turn = 1
         while playable:
             playable = False
             #Iterates through players turns
@@ -27,7 +28,7 @@ class GamePlan:
             for i in range(0,playerCount):
                 self.currentTurn = i
                 currentPlayer = self.players[i]
-                
+                print("-----TURN ", turn, "-----")
                 print("Pile: ", self.pile)
                 print("Player ", i, "hand: ", currentPlayer.hand)
                 #Now check for options and play random
@@ -41,12 +42,12 @@ class GamePlan:
                 #Default 'Play All' goal
                 #TODO: Refactor and remove later
                 if len(currentPlayer.hand) == 0:
-                    print("Pile: ", self.pile)
-                    print("Player ", i, " wins!")
+                    print("Player ", i, " wins! Turn: ", turn)
                     return i
                 
+                turn += 1
         #While loop exit
-        print("No winners!")
+        print("\n No winners! Turns: ", turn)
 
     #Attatch players to GamePlan
     def attach(self, player):
