@@ -10,7 +10,7 @@ class agent:
         self.passOptions = []
         self.negateOptions = []
         self.played = True
-        #Can be assigned dynamically
+        #Assigned dynamically
         self.uid = uid
 
     #Draws cards from deck and adds to hand

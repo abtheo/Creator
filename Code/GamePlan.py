@@ -14,7 +14,7 @@ class GamePlan:
         self.currentTurn = 0
         self.deck = cards.Deck()
         self.pile = []
-        #Unused
+        #Unused currently
         self.goal = "Play All"
         self.cantPlay = "Pick Up"
 
@@ -32,12 +32,13 @@ class GamePlan:
                 print("-----TURN ", turn, "-----")
                 print("Pile: ", self.pile)
                 print("Player ", i, "hand: ", currentPlayer.hand)
-                #Now check for options and play random
+                
+                #Check options and play one
                 currentPlayer.options = self.cardCheck()  
                 currentPlayer.priorityPlay(self.pile)
 
                 #Binary OR operation
-                #Ensures at least one player plays in the round
+                #Ensures at least one Player plays in the round
                 playable = playable | currentPlayer.played
 
                 #Default 'Play All' goal
@@ -91,7 +92,10 @@ class GamePlan:
                             builder.append(old)
 
                 #Adds to playable cards list
-                #TODO: Player priorities?
+                #TODO: Player priorities
+                #CurrentPlayer.passOptions.extend(erule.passes)
+                #CurrentPlayer.negateOptions.extend(erule.negates)
+                #No longer return, simply assign to CurrentPlayer
                 options = builder
                 options.extend(erule.passes)
                 options.extend(erule.negates)

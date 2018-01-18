@@ -11,6 +11,11 @@ import cards
 #Instatiations
 gameplan = GamePlan()
 
+#Attach x players to GamePlan
+for x in range(0,2):
+    gameplan.setupPlayer(Player.agent(x))
+
+
 #Adding rules--------------------------
 #Architect's job!
 higherRule = rules.rule()
@@ -24,11 +29,7 @@ anyRule.usesCards = gameplan.deck.getAll()
 gameplan.ruleList.append(anyRule)
 #--------------------------------------
 
-#Attach x players to GamePlan
-for x in range(0,2):
-    gameplan.setupPlayer(Player.agent(x))
-
-#Draws a starting card from the deck. ToBeReplaced.
+#Draws a starting card from the deck and adds to pile
 gameplan.startCard()
 #Plays the game
 gameplan.play()
