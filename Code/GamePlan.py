@@ -34,7 +34,9 @@ class GamePlan:
                 print("Player ", i, "hand: ", currentPlayer.hand)
                 
                 #Check options and play one
-                currentPlayer.options = self.cardCheck()  
+                #currentPlayer.options = self.cardCheck()
+                self.playCheck()
+                #print("Player ", i, " options: ", currentPlayer.options)
                 currentPlayer.priorityPlay(self.pile)
 
                 #Binary OR operation
@@ -99,5 +101,35 @@ class GamePlan:
                 options = builder
                 options.extend(erule.passes)
                 options.extend(erule.negates)
+                print("Player ", i, " options: ", options)
 
         return options
+
+    def playCheck(self):
+        currentPlayer = self.players[self.currentTurn]
+        currentPlayer.passOptions = []
+        currentPlayer.negateOptions = []
+        currentPlayer.options = cards.Deck().cards
+        for erule in self.ruleList:
+            for ecard in erule.usesCards:
+                #If pile card has an associated effect
+                if (self.pile[0].value == ecard.value and self.pile[0].suit == ecard.suit):
+                    #Effect executed
+                    strategy = Effects.Strategy(self, erule)
+                    newOptions = strategy.run()
+
+                    #Set union operation
+                    builder = []
+                    
+                    for old in currentPlayer.options:
+                        for opt in newOptions:
+                            if (opt.value == old.value and opt.suit == old.suit):
+                                builder.append(old)
+
+                    currentPlayer.options = builder
+                    currentPlayer.passOptions.extend(erule.passes)
+                    currentPlayer.negateOptions.extend(erule.negates)
+                    
+                    
+    
+    

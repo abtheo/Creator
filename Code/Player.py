@@ -38,6 +38,7 @@ class agent:
     #PlayerUpgrade1
     #Prioritises cards to play based on pass and negate options
     def priorityPlay(self, pile):
+        random.shuffle(self.hand)
         index = -1
         #Refactor this duplicated mess at some point
         #Probably into a player function
