@@ -23,9 +23,9 @@ class GamePlan:
         playable = True
         turn = 1
         while playable:
-            playable = False
             #Iterates through players turns
             playerCount = len(self.players)
+            playCheck = [True] * playerCount
             for i in range(0,playerCount):
                 self.currentTurn = i
                 currentPlayer = self.players[i]
@@ -39,10 +39,6 @@ class GamePlan:
                 #print("Player ", i, " options: ", currentPlayer.options)
                 currentPlayer.priorityPlay(self.pile)
 
-                #Binary OR operation
-                #Ensures at least one Player plays in the round
-                playable = playable | currentPlayer.played
-
                 #Default 'Play All' goal
                 #TODO: Refactor and remove later
                 if len(currentPlayer.hand) == 0:
@@ -50,8 +46,17 @@ class GamePlan:
                     return i
                 
                 turn += 1
+
+                playCheck[i] = currentPlayer.played
+                if True in playCheck:
+                    playable = True
+                else:
+                    playable = False
+                    break
+            
+                
         #While loop exit
-        print("\n No winners! Turns: ", turn)
+        print("\nNo winners! Turns: ", turn)
 
     #Attatch players to GamePlan
     def attach(self, player):
@@ -74,42 +79,14 @@ class GamePlan:
     def startCard(self):
         self.pile.extend(self.deck.draw(1))
 
-    #Returns playable cards based on self.pile effect
-    def cardCheck(self):
-        #Each rule must be interpreited
-        options = cards.Deck().cards
-        for erule in self.ruleList:
-            #If last card has a rule
-            if self.pile[0] in erule.usesCards:
-                #Executes effect of card
-                strategy = Effects.Strategy(self, erule)
-                newOptions = strategy.run()
-                
-                #Set union operation
-                builder = []
-                
-                for old in options:
-                    for opt in newOptions:
-                        if (opt.value == old.value and opt.suit == old.suit):
-                            builder.append(old)
-
-                #Adds to playable cards list
-                #TODO: Player priorities
-                #CurrentPlayer.passOptions.extend(erule.passes)
-                #CurrentPlayer.negateOptions.extend(erule.negates)
-                #No longer return, simply assign to CurrentPlayer
-                options = builder
-                options.extend(erule.passes)
-                options.extend(erule.negates)
-                print("Player ", i, " options: ", options)
-
-        return options
-
+    #Checks play options for current Player
     def playCheck(self):
+        #Resets Player knowledge
         currentPlayer = self.players[self.currentTurn]
         currentPlayer.passOptions = []
         currentPlayer.negateOptions = []
         currentPlayer.options = cards.Deck().cards
+        #Checks each rule and which cards they use
         for erule in self.ruleList:
             for ecard in erule.usesCards:
                 #If pile card has an associated effect
