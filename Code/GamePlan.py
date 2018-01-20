@@ -21,11 +21,11 @@ class GamePlan:
     #Plays the game
     def play(self):
         playable = True
+        playerCount = len(self.players)
+        playCheck = [True] * playerCount
         turn = 1
         while playable:
             #Iterates through players turns
-            playerCount = len(self.players)
-            playCheck = [True] * playerCount
             for i in range(0,playerCount):
                 self.currentTurn = i
                 currentPlayer = self.players[i]
@@ -34,7 +34,6 @@ class GamePlan:
                 print("Player ", i, "hand: ", currentPlayer.hand)
                 
                 #Check options and play one
-                #currentPlayer.options = self.cardCheck()
                 self.playCheck()
                 #print("Player ", i, " options: ", currentPlayer.options)
                 currentPlayer.priorityPlay(self.pile)
