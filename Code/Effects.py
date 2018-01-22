@@ -30,19 +30,19 @@ class orderCheck:
 
     def __init__(self, gameplan):
         self.order = gameplan.order
-        
+
     #f < s
-    def lt(self,f, s):
+    def lt(self,f,s):
         return True if (self.order.index(f) < self.order.index(s)) else False
 
-    def le(self, f,s):
+    def le(self,f,s):
         return True if (self.order.index(f) <= self.order.index(s)) else False
 
     #f > s
-    def gt(self,f, s):
+    def gt(self,f,s):
         return True if (self.order.index(f) > self.order.index(s)) else False    
 
-    def ge(self,f, s):
+    def ge(self,f,s):
         return True if (self.order.index(f) >= self.order.index(s)) else False    
         
  
@@ -56,9 +56,10 @@ class Strategy():
         self.rule = rule
         #All cards are an option to begin with
         #Elimination process
-        self.baseDeck = cards.Deck()
         self.options = self.baseDeck.cards
+        self.baseDeck = cards.Deck()
         self.effect = rule.effect
+        self.currentPlayer = gameplan.players[gameplan.currentTurn]
 
 
     
@@ -67,11 +68,15 @@ class Strategy():
         return self.options
 
 
-    #def Burn(self):
-    #IF Player cannot negate or pass   //handled by cardCheck?
-    #Burn x cards from Player instance hand
-    #Already have GamePlan, so if I attatch Players then I can access them here
-     
+##    def Burn(self):
+##        
+##    #IF Player cannot negate or pass   //handled by cardCheck?
+##    #Burn x cards from Player instance hand
+##    #FAILED
+##        handSize = len(self.currentPlayer.hand)
+##        self.currentPlayer.hand = []
+##        self.currentPlayer.hand = self.gameplan.deck.draw(handSize)
+##     
         
     #Forces the player to play a specific card
     #def Force_Card():

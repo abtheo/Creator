@@ -14,12 +14,14 @@ class GamePlan:
         self.currentTurn = 0
         self.deck = cards.Deck()
         self.pile = []
+        
         #Unused currently
         self.goal = "Play All"
         self.cantPlay = "Pick Up"
 
     #Plays the game
     def play(self):
+        #Var declarations
         playable = True
         playerCount = len(self.players)
         playCheck = [True] * playerCount
@@ -90,8 +92,16 @@ class GamePlan:
             for ecard in erule.usesCards:
                 #If pile card has an associated effect
                 if (self.pile[0].value == ecard.value and self.pile[0].suit == ecard.suit):
-                    #Effect executed
+                    
+                    currentPlayer.passOptions.extend(erule.passes)
+                    currentPlayer.negateOptions.extend(erule.negates)
+                    
+                    #Effect invoked and executed
                     strategy = Effects.Strategy(self, erule)
+                    
+                    #Could return en empty set if no possible recourse
+                    #In this case, the player will be affected in some way
+                    #Priority play will FAIL in this case
                     newOptions = strategy.run()
 
                     #Set union operation
@@ -103,9 +113,6 @@ class GamePlan:
                                 builder.append(old)
 
                     currentPlayer.options = builder
-                    currentPlayer.passOptions.extend(erule.passes)
-                    currentPlayer.negateOptions.extend(erule.negates)
-                    
-                    
+                                    
     
     
