@@ -31,7 +31,7 @@ gameplan.ruleList.append(anyRule)
 #--------------------------------------
 
 #Attach x players to GamePlan
-for x in range(2):
+for x in range(4):
     gameplan.setupPlayer(Player.agent(x))
 
 #Draws a starting card from the deck and adds to pile
