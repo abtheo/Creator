@@ -91,7 +91,7 @@ class GamePlan:
         for erule in self.ruleList:
             for ecard in erule.usesCards:
                 #If pile card has an associated effect
-                if (self.pile[0].value == ecard.value and self.pile[0].suit == ecard.suit):
+                if (self.pile[0].value == ecard.value and self.pile[0].suit != ecard.suit):
                     
                     currentPlayer.passOptions.extend(erule.passes)
                     currentPlayer.negateOptions.extend(erule.negates)
@@ -103,7 +103,7 @@ class GamePlan:
                     #In this case, the player will be affected in some way
                     #Priority play will FAIL in this case
                     newOptions = strategy.run()
-
+                    
                     #Set union operation
                     builder = []
                     

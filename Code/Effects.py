@@ -56,8 +56,8 @@ class Strategy():
         self.rule = rule
         #All cards are an option to begin with
         #Elimination process
-        self.options = self.baseDeck.cards
         self.baseDeck = cards.Deck()
+        self.options = self.baseDeck.cards
         self.effect = rule.effect
         self.currentPlayer = gameplan.players[gameplan.currentTurn]
 
@@ -68,15 +68,18 @@ class Strategy():
         return self.options
 
 
-##    def Burn(self):
-##        
-##    #IF Player cannot negate or pass   //handled by cardCheck?
-##    #Burn x cards from Player instance hand
-##    #FAILED
-##        handSize = len(self.currentPlayer.hand)
-##        self.currentPlayer.hand = []
-##        self.currentPlayer.hand = self.gameplan.deck.draw(handSize)
-##     
+    #Refactor to take int parameter for card number?
+    def Burn(self):
+        #IF Player cannot negate or pass
+        if self.currentPlayer.handCheck(self.currentPlayer.passOptions) == -1 and self.currentPlayer.handCheck(self.currentPlayer.negateOptions) == -1:
+            #Burn cards from Player's hand and draw new
+            handSize = len(self.currentPlayer.hand)
+            self.currentPlayer.hand = []
+            self.currentPlayer.hand = self.gameplan.deck.draw(handSize)
+            self.options = []
+
+        
+     
         
     #Forces the player to play a specific card
     #def Force_Card():

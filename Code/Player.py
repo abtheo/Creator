@@ -38,7 +38,6 @@ class agent:
     #PlayerUpgrade1
     #Prioritises cards to play based on pass and negate options
     def priorityPlay(self, pile):
-        random.shuffle(self.hand)
         index = -1
 
         #First check passing
@@ -54,21 +53,28 @@ class agent:
             index = self.handCheck(self.options)
             
         if (index > -1):
+            #Stacks onto pile, removes from hand
             pile.insert(0, self.hand[index])
             print("Playing: ", self.hand.pop(index), "\n")
             self.played = True
         else:
+            #IF BasePunishment == NULL
             print("Player cannot play. \n")
             self.played = False
+            #ELSE Punish CurrentPlayer
+            
 
 
     #Checks if any hand card matches given options
+    #Returns index or -1 for failure
     def handCheck(self, options):
         for ecard in self.hand:
                 for opt in options:
                     if (ecard.value == opt.value and ecard.suit == opt.suit):
-                        index = self.hand.index(ecard)
-        return index
+                        return self.hand.index(ecard)
+
+        return -1
+        
                 
                 
         

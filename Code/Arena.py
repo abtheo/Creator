@@ -28,10 +28,16 @@ anyRule = rules.rule()
 anyRule.effect="Play_Any"
 anyRule.usesCards = ruleDeck.getAll()
 gameplan.ruleList.append(anyRule)
+
+burnRule = rules.rule()
+burnRule.effect="Burn"
+burnRule.usesCards = ruleDeck.getAny("8")
+gameplan.ruleList.append(burnRule)
+
 #--------------------------------------
 
 #Attach x players to GamePlan
-for x in range(4):
+for x in range(2):
     gameplan.setupPlayer(Player.agent(x))
 
 #Draws a starting card from the deck and adds to pile
