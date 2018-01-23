@@ -96,7 +96,6 @@ class Strategy():
 
     #Next card must be higher than pile
     def Higher(self):
-        #Initialise order checking class
         checker = orderCheck(self.gameplan)
         for ecard in self.options[:]:
             if checker.le(ecard.value, self.pile[0].value):

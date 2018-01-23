@@ -40,29 +40,18 @@ class agent:
     def priorityPlay(self, pile):
         random.shuffle(self.hand)
         index = -1
-        #Refactor this duplicated mess at some point
-        #Probably into a player function
 
         #First check passing
         if len(self.passOptions) > 0:
-            for ecard in self.hand:
-                for opt in passOptions:
-                    if (ecard.value == opt.value and ecard.suit == opt.suit):
-                        index = self.hand.index(ecard)
+            index = self.handCheck(self.passOptions)
 
         #Then check negating                
         elif len(self.negateOptions) > 0:
-            for ecard in self.hand:
-                for opt in passOptions:
-                    if (ecard.value == opt.value and ecard.suit == opt.suit):
-                        index = self.hand.index(ecard)
+            index = self.handCheck(self.negateOptions)
 
         #Else choose any possible
         else:
-            for ecard in self.hand:
-                for opt in self.options:
-                    if (ecard.value == opt.value and ecard.suit == opt.suit):
-                        index = self.hand.index(ecard)
+            index = self.handCheck(self.options)
             
         if (index > -1):
             pile.insert(0, self.hand[index])
@@ -70,7 +59,16 @@ class agent:
             self.played = True
         else:
             print("Player cannot play. \n")
-            self.played = False        
+            self.played = False
+
+
+    #Checks if any hand card matches given options
+    def handCheck(self, options):
+        for ecard in self.hand:
+                for opt in options:
+                    if (ecard.value == opt.value and ecard.suit == opt.suit):
+                        index = self.hand.index(ecard)
+        return index
                 
                 
         
