@@ -73,7 +73,7 @@ class Strategy():
     def Burn(self):
         #IF Player cannot negate or pass
         #THIS BIT NEEDS GENERALISING---
-        #And maybe moving?
+        #And maybe (re)moving?
         passIndex = self.currentPlayer.handCheck(self.currentPlayer.passOptions)
         negateIndex = self.currentPlayer.handCheck(self.currentPlayer.negateOptions)
         if passIndex == -1 and negateIndex == -1:

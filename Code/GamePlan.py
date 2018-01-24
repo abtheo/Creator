@@ -15,8 +15,8 @@ class GamePlan:
         self.deck = cards.Deck()
         self.pile = []
 
-        #Bool to check whether effect has already been run
-        self.affected = False
+        #Bool to check if effect should be run
+        self.armed = True
         #Unused currently
         self.goal = "Play All"
         self.cantPlay = "Pick_Up"

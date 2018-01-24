@@ -38,16 +38,21 @@ class agent:
         index = -1
 
         #First check passing
+        #Suffers no effects, passes to next player
         if len(self.passOptions) > 0:
             index = self.handCheck(self.passOptions)
+            #Set gameplan.armed = True
 
-        #Then check negating                
+        #Then check negating
+        #Nobody suffers effect
         elif len(self.negateOptions) > 0:
             index = self.handCheck(self.negateOptions)
+            #Set gameplan.armed = False
 
         #Else choose any possible
         else:
             index = self.handCheck(self.options)
+            #Set gameplan.armed = True
             
         if (index > -1):
             #Stacks onto pile, removes from hand
@@ -55,10 +60,11 @@ class agent:
             print("Playing: ", self.hand.pop(index), "\n")
             self.played = True
         else:
-            #IF BasePunishment == NULL
+            #IF gameplan.armed:
+                #Suffer effects here?
             print("Player cannot play. \n")
             self.played = False
-            #ELSE Punish CurrentPlayer
+            #ELSE 
             
 
 
@@ -71,6 +77,46 @@ class agent:
                         return self.hand.index(ecard)
 
         return -1
+
+    def playCheck(self, gameplan):
+        #Resets Player knowledge
+        self.passOptions = []
+        self.negateOptions = []
+        self.options = cards.Deck().cards
+        #Checks each rule and which cards they use
+        for erule in self.ruleList:
+            for ecard in erule.usesCards:
+                #If pile card has an associated effect
+                if (self.pile[0].value == ecard.value and self.pile[0].suit == ecard.suit):
+
+                    #Extending this means any pass option will be allowed for EVERY rule
+                    #Definitely a bug in the waiting
+                    #Another set union for each?
+                    
+                    self.passOptions = self.optUnion(self.passOptions, erule.passes)
+                    self.negateOptions = self.optUnion(self.negateOptions, erule.negates)
+
+                    #Also need a check here for if the effect was already executed
+                    #Effect invoked and executed
+                    strategy = Effects.Strategy(gameplan, erule)
+                    
+                    #Could return en empty set if no possible recourse
+                    #In this case, the player will be affected in some way
+                    #Priority play will FAIL in this case
+                    newOptions = strategy.run()
+
+                    self.options = self.optUnion(self.options, newOptions)
+
+    #Set union operation on two lists                   
+    @staticmethod
+    def optUnion(first, second):
+        builder = []
+        for f in first:
+            for s in second:
+                if (f.value == s.value and f.suit == s.suit):
+                    builder.append(f)
+        return builder
+    
         
                 
                 
