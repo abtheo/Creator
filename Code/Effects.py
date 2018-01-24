@@ -69,14 +69,24 @@ class Strategy():
 
 
     #Refactor to take int parameter for card number?
+    #No, should be the magnitude var in effect
     def Burn(self):
         #IF Player cannot negate or pass
-        if self.currentPlayer.handCheck(self.currentPlayer.passOptions) == -1 and self.currentPlayer.handCheck(self.currentPlayer.negateOptions) == -1:
+        #THIS BIT NEEDS GENERALISING---
+        #And maybe moving?
+        passIndex = self.currentPlayer.handCheck(self.currentPlayer.passOptions)
+        negateIndex = self.currentPlayer.handCheck(self.currentPlayer.negateOptions)
+        if passIndex == -1 and negateIndex == -1:
+        #------------------------------
+            
             #Burn cards from Player's hand and draw new
             handSize = len(self.currentPlayer.hand)
             self.currentPlayer.hand = []
             self.currentPlayer.hand = self.gameplan.deck.draw(handSize)
             self.options = []
+##        else:
+##            self.options.extend(self.currentPlayer.passOptions)
+##            self.options.extend(self.currentPlayer.negateOptions)
 
         
      

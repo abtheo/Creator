@@ -21,10 +21,7 @@ class agent:
     def playRandom(self, pile):
         random.shuffle(self.hand)
         index = -1
-        for ecard in self.hand:
-            for opt in self.options:
-                if (ecard.value == opt.value and ecard.suit == opt.suit):
-                    index = self.hand.index(ecard)
+        index = self.handCheck(self.options)
                     
         if (index > -1):
             pile.insert(0, self.hand[index])

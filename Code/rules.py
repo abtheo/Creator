@@ -22,7 +22,6 @@ class rule:
         #TODO: Unused, impliment later
         self.mag = None
         self.stacks = False
-        self.targets = "left" #Defaults "left", can be "any" / "right" etc.
 
 
     #Instantiates random example rule

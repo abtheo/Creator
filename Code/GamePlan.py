@@ -14,10 +14,12 @@ class GamePlan:
         self.currentTurn = 0
         self.deck = cards.Deck()
         self.pile = []
-        
+
+        #Bool to check whether effect has already been run
+        self.affected = False
         #Unused currently
         self.goal = "Play All"
-        self.cantPlay = "Pick Up"
+        self.cantPlay = "Pick_Up"
 
     #Plays the game
     def play(self):
@@ -91,11 +93,16 @@ class GamePlan:
         for erule in self.ruleList:
             for ecard in erule.usesCards:
                 #If pile card has an associated effect
-                if (self.pile[0].value == ecard.value and self.pile[0].suit != ecard.suit):
-                    
-                    currentPlayer.passOptions.extend(erule.passes)
-                    currentPlayer.negateOptions.extend(erule.negates)
-                    
+                if (self.pile[0].value == ecard.value and self.pile[0].suit == ecard.suit):
+
+                    #Extending this means any pass option will be allowed for EVERY rule
+                    #Definitely a bug in the waiting
+                    #Reset for each?
+                    #Let's try it!
+                    currentPlayer.passOptions = erule.passes
+                    currentPlayer.negateOptions = erule.negates
+
+                    #Also need a check here for if the effect was already executed
                     #Effect invoked and executed
                     strategy = Effects.Strategy(self, erule)
                     
