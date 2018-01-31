@@ -66,28 +66,6 @@ class Strategy():
     def run(self):
         getattr(self, self.effect)()
         return self.options
-
-
-    #Refactor to take int parameter for card number?
-    #No, should be the magnitude var in effect
-    def Burn(self):
-        #IF Player cannot negate or pass
-        #THIS BIT NEEDS GENERALISING---
-        #And maybe (re)moving?
-        passIndex = self.currentPlayer.handCheck(self.currentPlayer.passOptions)
-        negateIndex = self.currentPlayer.handCheck(self.currentPlayer.negateOptions)
-        if passIndex == -1 and negateIndex == -1:
-        #------------------------------
-            
-            #Burn cards from Player's hand and draw new
-            handSize = len(self.currentPlayer.hand)
-            self.currentPlayer.hand = []
-            self.currentPlayer.hand = self.gameplan.deck.draw(handSize)
-            self.options = []
-##        else:
-##            self.options.extend(self.currentPlayer.passOptions)
-##            self.options.extend(self.currentPlayer.negateOptions)
-
         
      
         
@@ -97,16 +75,14 @@ class Strategy():
     
     #As if pile[1] were pile[0]
     #But not really, in case of pick ups!
-##    def Invisible(self):
-##        if (len(self.pile) > 1):
-##            recurStrat = Strategy(self.pile[1:], self.gameplan)
-##            recurStrat.run()
-##        else:
-##            self.options = self.baseDeck.cards
-##        
+    def Invisible(self):
+        if (len(self.pile) > 1):
+            recurStrat = Strategy(self.pile[1:], self.gameplan)
+            recurStrat.run()
+        else:
+            self.options = self.baseDeck.cards
         
-    #def Pickup_Pile(self):
-
+    
     #Next card must be higher than pile
     def Higher(self):
         checker = orderCheck(self.gameplan)
