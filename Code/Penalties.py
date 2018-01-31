@@ -10,7 +10,7 @@ penList = ["Burn",
 class penStrategy():
 
     def __init__(self, gameplan, rule):
-        self.pile = gameplan.pile
+        #self.pile = gameplan.pile
         self.gameplan = gameplan
         self.rule = rule
         self.currentPlayer = gameplan.players[gameplan.currentTurn]
@@ -28,10 +28,14 @@ class penStrategy():
             self.currentPlayer.hand = self.gameplan.deck.draw(handSize)
         #Burn X
         else:
-            self.currentPlayer.hand = self.currentPlayer.hand[0,self.rule.mag]
+            self.currentPlayer.hand = self.currentPlayer.hand[0:self.rule.mag]
             self.currentPlayer.hand.extend(self.gameplan.deck.draw(rule.mag))
             
 
     #Forces current player to pick up
     def Pick_Up(self):
         self.currentPlayer.Pick_Up(gameplan.deck, rule.mag)
+
+    def Pickup_Pile(self):
+        self.currentPlayer.hand = self.gameplan.pile
+        self.gameplan.pile = []

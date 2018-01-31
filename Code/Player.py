@@ -88,10 +88,6 @@ class agent:
             for ecard in erule.usesCards:
                 #If pile card has an associated effect
                 if (self.pile[0].value == ecard.value and self.pile[0].suit == ecard.suit):
-
-                    #Extending this means any pass option will be allowed for EVERY rule
-                    #Definitely a bug in the waiting
-                    #Another set union for each?
                     
                     self.passOptions = self.optUnion(self.passOptions, erule.passes)
                     self.negateOptions = self.optUnion(self.negateOptions, erule.negates)

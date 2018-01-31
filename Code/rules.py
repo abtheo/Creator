@@ -18,9 +18,11 @@ class rule:
         self.negates = []
         
         self.effect = ""
+        self.penalty = ""
 
-        #TODO: Unused, impliment later
         self.mag = None
+        
+        #TODO: Unused, impliment later
         self.stacks = False
 
 
