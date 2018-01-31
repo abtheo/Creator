@@ -20,7 +20,6 @@ class agent:
     #Plays random card from hand within options
     def playRandom(self, pile):
         random.shuffle(self.hand)
-        index = -1
         index = self.handCheck(self.options)
                     
         if (index > -1):
@@ -83,11 +82,16 @@ class agent:
         self.passOptions = []
         self.negateOptions = []
         self.options = cards.Deck().cards
+        
+        #Empty pile check
+        if len(gameplan.pile) < 1:
+            self.options = 
+        
         #Checks each rule and which cards they use
         for erule in self.ruleList:
             for ecard in erule.usesCards:
                 #If pile card has an associated effect
-                if (self.pile[0].value == ecard.value and self.pile[0].suit == ecard.suit):
+                if (gameplan.pile[0].value == ecard.value and gameplan.pile[0].suit == ecard.suit):
                     
                     self.passOptions = self.optUnion(self.passOptions, erule.passes)
                     self.negateOptions = self.optUnion(self.negateOptions, erule.negates)
