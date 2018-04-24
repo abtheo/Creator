@@ -20,13 +20,22 @@ ruleDeck = cards.Deck()
 ##anyRule.usesCards = ruleDeck.getAll()
 ##gameplan.ruleList.append(anyRule)
 
+##badRule = rules.rule()
+##badRule.effect = "Match_Suit"
+##badRule.usesCards = ruleDeck.getAll()
+##gameplan.ruleList.append(badRule)
+
 higherRule = rules.rule()
 higherRule.effect = "Higher"
 higherRule.usesCards = ruleDeck.getAll()[0:28]
+higherRule.penalty = "Burn"
+higherRule.mag = 2
 gameplan.ruleList.append(higherRule)
 
 lowerRule = rules.rule()
 lowerRule.effect = "Lower"
+lowerRule.penalty = "Burn"
+lowerRule.mag = 1
 lowerRule.usesCards = ruleDeck.getAll()[28:51]
 gameplan.ruleList.append(lowerRule)
 

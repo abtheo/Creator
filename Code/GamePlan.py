@@ -40,7 +40,7 @@ class GamePlan:
                 #Check options and play one
                 self.playCheck()
                 #print("Player ", i, " options: ", currentPlayer.options)
-                currentPlayer.priorityPlay(self.pile)
+                currentPlayer.priorityPlay(self)
 
                 #Default 'Play All' goal
                 #TODO: Refactor and remove later
@@ -49,14 +49,14 @@ class GamePlan:
                     return i
                 
                 turn += 1
-
-                playCheck[i] = currentPlayer.played
+                
+                playCheck[i] = currentPlayer.changed
                 if True in playCheck:
                     playable = True
                 else:
                     playable = False
                     break
-            
+                
                 
         #While loop exit
         print("\nNo winners! Turns: ", turn)
@@ -73,8 +73,8 @@ class GamePlan:
 
     #Returns Player for current turn
     def getCurrentPlayer(self):
-        if len(players) > 0:
-            return players[currentTurn]
+        if len(self.players) > 0:
+            return self.players[self.currentTurn]
         else:
             return None
 

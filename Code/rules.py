@@ -28,9 +28,9 @@ class rule:
 
     #Instantiates random example rule
     def setRandom(self):
-        #RENAME CARDS VARIABLE
         self.usesCards = random.sample(baseDeck.cards,2)
         self.effect = random.sample(effectList, 1)
         return self
+
 
 

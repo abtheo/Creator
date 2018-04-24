@@ -103,8 +103,8 @@ class Strategy():
 
     #Play the same value
     def Match_Value(self):
-        self.options = self.baseDeck.getAny(pile[0].value)
+        self.options = self.baseDeck.getAny(self.pile[0].value)
         
     #Play the same suit
     def Match_Suit(self):
-        self.options = self.baseDeck.getAny(pile[0].suit)
+        self.options = self.baseDeck.getAny(self.pile[0].suit)

@@ -1,6 +1,7 @@
 import random
 import Effects
 import cards
+import Penalties
 
 #Knows how to play card games
 class agent:
@@ -9,7 +10,7 @@ class agent:
         self.options = cards.Deck().cards
         self.passOptions = []
         self.negateOptions = []
-        self.played = True
+        self.changed = True
         #Assigned dynamically
         self.uid = uid
 
@@ -25,46 +26,52 @@ class agent:
         if (index > -1):
             pile.insert(0, self.hand[index])
             print("Playing: ", self.hand.pop(index), "\n")
-            self.played = True
+            self.changed = True
         else:
             print("Player cannot play. \n")
-            self.played = False
+            self.changed = False
 
 
-    #PlayerUpgrade1
-    #Prioritises cards to play based on pass and negate options
-    def priorityPlay(self, pile):
-        index = -1
 
-        #First check passing
-        #Suffers no effects, passes to next player
+    def priorityPlay(self, gameplan):
+        index = self.handCheck(self.options)
+
+        if len(self.negateOptions) > 0:
+            new_index = self.handCheck(self.negateOptions)
+            if new_index > -1:
+                index = new_index
+            
         if len(self.passOptions) > 0:
-            index = self.handCheck(self.passOptions)
-            #Set gameplan.armed = True
-
-        #Then check negating
-        #Nobody suffers effect
-        elif len(self.negateOptions) > 0:
-            index = self.handCheck(self.negateOptions)
-            #Set gameplan.armed = False
-
-        #Else choose any possible
-        else:
-            index = self.handCheck(self.options)
-            #Set gameplan.armed = True
+            new_index = self.handCheck(self.passOptions)
+            if new_index > -1:
+                index = new_index
             
         if (index > -1):
             #Stacks onto pile, removes from hand
-            pile.insert(0, self.hand[index])
+            gameplan.pile.insert(0, self.hand[index])
             print("Playing: ", self.hand.pop(index), "\n")
-            self.played = True
+            self.changed = True
+            gameplan.armed = True
         else:
-            #IF gameplan.armed:
-                #Suffer effects here?
             print("Player cannot play. \n")
-            self.played = False
-            #ELSE 
-            
+            if gameplan.armed:
+                gameplan.armed = False
+                #Suffer penalty of ALL rules
+                for r in gameplan.ruleList:
+                    for ecard in r.usesCards:
+                        if (ecard.value == gameplan.pile[0].value and gameplan.pile[0].suit == ecard.suit):             
+                            pStrat = Penalties.penStrategy(gameplan, r)
+                            pStrat.run()
+                
+                self.changed = True
+                
+            #Default penalty
+            else:
+                #print("Picking up 1 card. \n")
+                #self.Pick_Up(gameplan.deck, 1)
+                #self.changed = True
+                self.changed = False
+                
 
 
     #Checks if any hand card matches given options
@@ -77,35 +84,6 @@ class agent:
 
         return -1
 
-    def playCheck(self, gameplan):
-        #Resets Player knowledge
-        self.passOptions = []
-        self.negateOptions = []
-        self.options = cards.Deck().cards
-        
-        #Empty pile check
-        if len(gameplan.pile) < 1:
-            self.options = 
-        
-        #Checks each rule and which cards they use
-        for erule in self.ruleList:
-            for ecard in erule.usesCards:
-                #If pile card has an associated effect
-                if (gameplan.pile[0].value == ecard.value and gameplan.pile[0].suit == ecard.suit):
-                    
-                    self.passOptions = self.optUnion(self.passOptions, erule.passes)
-                    self.negateOptions = self.optUnion(self.negateOptions, erule.negates)
-
-                    #Also need a check here for if the effect was already executed
-                    #Effect invoked and executed
-                    strategy = Effects.Strategy(gameplan, erule)
-                    
-                    #Could return en empty set if no possible recourse
-                    #In this case, the player will be affected in some way
-                    #Priority play will FAIL in this case
-                    newOptions = strategy.run()
-
-                    self.options = self.optUnion(self.options, newOptions)
 
     #Set union operation on two lists                   
     @staticmethod
