@@ -1,0 +1,2 @@
+# Creator: Card Game Generation Project
+Generative Adversarial Network implementation. The system is comprised of two opposing AI agents, a Neural Network as the Generator and a custom implementation of a Discriminator. This custom Discriminator iteratively simulates candidate games, and uses a system of complex heuristics to evaluate their efficacy. The goal of the system is to generate brand-new and original playing card games which are internally logically consistent.
